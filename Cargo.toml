@@ -1,6 +1,6 @@
 [package]
 name = "minhas-financas"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 description = "Controle das contas e faturas de cartão do mês"
 default-run = "MinhasFinancas"

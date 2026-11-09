@@ -143,7 +143,8 @@ As versões são publicadas sozinhas pelo GitHub Actions
 
 1. Troque a versão em `Cargo.toml` e em `tauri.conf.json` (ex.: `1.1.0`) e rode o
    `compilar.ps1`, que também atualiza o `Cargo.lock`.
-2. Atualize o texto da release em [`.github/notas-da-versao.md`](.github/notas-da-versao.md).
+2. Anote as mudanças no [`CHANGELOG.md`](CHANGELOG.md) e atualize o texto da release em
+   [`.github/notas-da-versao.md`](.github/notas-da-versao.md).
 3. Faça o commit e envie a tag:
 
 ```powershell
