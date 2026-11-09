@@ -20,10 +20,13 @@ const BANCOS = [
         stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
   },
   {
-    id: 'bb', nome: 'Banco do Brasil', cor: '#FBD71E', cor2: '#F2B705', texto: '#1E3A9E',
-    desenho: `<rect width="48" height="48" rx="12" fill="#FBD71E"/>
-      <path d="M24 8.5 35.5 20 24 31.5 12.5 20Z M24 16.5 35.5 28 24 39.5 12.5 28Z" fill="none"
-        stroke="#2A44B8" stroke-width="3.6" stroke-linejoin="round"/>`,
+    // Símbolo: duas peças iguais giradas 180°, com faixas na inclinação 2:3,
+    // mais os dois cantinhos. Redesenhado a partir da marca do banco.
+    id: 'bb', nome: 'Banco do Brasil', cor: '#FBD71E', cor2: '#F2B705', texto: '#0A3AA0',
+    desenho: `<rect width="48" height="48" rx="12" fill="#FCDD1E"/>
+      <path fill="#0A3AA0" d="M23.98 6L41.75 17.95L20.57 32.1L17.16 29.74L34.05 18.04L23.56 11.08L18.69 14.38L22.41 16.89L13.5 22.76L6.27 17.95Z
+        M23.98 41.84L6.22 29.9L27.4 15.75L30.81 18.1L13.92 29.8L24.41 36.77L29.28 33.46L25.56 30.95L34.47 25.08L41.7 29.9Z
+        M34.88 10.87L42 6.09L42 10.97L38.38 13.33Z M13.09 36.97L5.97 41.75L5.97 36.88L9.58 34.52Z"/>`,
   },
   {
     id: 'bradesco', nome: 'Bradesco', cor: '#CC092F', cor2: '#7A0019', texto: '#FFFFFF',

@@ -90,8 +90,8 @@ docs/                        imagens do README
 Sobre o visual: o tema é **inspirado** no clima de jogos roguelike de porão (pedra escura,
 papel rabiscado, pixel art). Toda a arte é original, feita para este projeto; não usa
 imagens, fontes ou personagens de nenhum jogo. As letras usam as fontes *Ink Free* e
-*Segoe Print*, que já vêm no Windows. Os emblemas dos bancos são desenhos simplificados
-inspirados nas cores de cada banco, não os logotipos oficiais.
+*Segoe Print*, que já vêm no Windows. Os emblemas dos bancos são desenhos em SVG feitos
+só para identificar cada cartão no programa; as marcas pertencem aos respectivos bancos.
 
 ## Compilar
 
