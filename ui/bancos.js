@@ -94,9 +94,11 @@ const BANCOS = [
 const BANDEIRAS = [
   {
     id: 'visa', nome: 'Visa',
-    svg: (claro) => `<svg class="bandeira-svg" viewBox="0 0 64 22" aria-label="Visa"><text x="32" y="11.5"
-      dominant-baseline="central" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900"
-      font-style="italic" font-size="19" letter-spacing="-0.5" fill="${claro ? '#fff' : '#1A1F71'}">VISA</text></svg>`,
+    // Linha de base calculada pela altura das maiúsculas (~0,72 da fonte) para o
+    // texto ficar no meio de verdade: 11 + 16 * 0,72 / 2 ≈ 16,8.
+    svg: (claro) => `<svg class="bandeira-svg" viewBox="0 0 64 22" aria-label="Visa"><text x="31" y="16.8"
+      text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900"
+      font-style="italic" font-size="16" letter-spacing="-0.3" fill="${claro ? '#fff' : '#1A1F71'}">VISA</text></svg>`,
   },
   {
     id: 'mastercard', nome: 'Mastercard',
@@ -114,13 +116,13 @@ const BANDEIRAS = [
   {
     id: 'amex', nome: 'American Express',
     svg: () => `<svg class="bandeira-svg" viewBox="0 0 48 24" aria-label="American Express">
-      <rect width="48" height="24" rx="4" fill="#2E77BC"/><text x="24" y="12.5" dominant-baseline="central"
+      <rect width="48" height="24" rx="4" fill="#2E77BC"/><text x="24" y="16"
       text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="11" fill="#fff">AMEX</text></svg>`,
   },
   {
     id: 'hipercard', nome: 'Hipercard',
     svg: () => `<svg class="bandeira-svg" viewBox="0 0 64 24" aria-label="Hipercard">
-      <rect width="64" height="24" rx="4" fill="#B3131B"/><text x="32" y="12.5" dominant-baseline="central"
+      <rect width="64" height="24" rx="4" fill="#B3131B"/><text x="32" y="16.1"
       text-anchor="middle" font-family="Arial, sans-serif" font-style="italic" font-weight="800" font-size="11.5"
       fill="#fff">Hipercard</text></svg>`,
   },
