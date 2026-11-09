@@ -1,0 +1,33 @@
+# Publica uma versão nova quando uma tag "v..." é enviada (ex.: git push origin v1.0.0):
+# roda os testes, compila o MinhasFinancas.exe no Windows e cria a release com o .exe anexado.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Testes
+        run: cargo test --release --locked
+
+      - name: Compilar
+        run: cargo build --release --locked
+
+      - name: Publicar a release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $exe = 'target/release/MinhasFinancas.exe'
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          $notas = (Get-Content .github/notas-da-versao.md -Raw -Encoding utf8).Replace('{{SHA256}}', $hash)
+          Set-Content notas.md $notas -Encoding utf8
+          gh release create "$env:GITHUB_REF_NAME" $exe --title "Money Go Power $env:GITHUB_REF_NAME" --notes-file notas.md

@@ -18,9 +18,22 @@
   <img src="docs/tela-2.jpg" width="900" alt="Tela do Minhas Finanças: gastos no Pix e quanto da renda está comprometido">
 </p>
 
-## Como usar
+## Baixar
 
-**Abrir:** dê dois cliques em `MinhasFinancas.exe` (veja [como compilar](#compilar) abaixo).
+<p align="center">
+  <a href="https://github.com/matheusbwv/Money-Go-Power/releases/latest/download/MinhasFinancas.exe"><b>⬇ Baixar o MinhasFinancas.exe</b></a>
+  · <a href="https://github.com/matheusbwv/Money-Go-Power/releases">todas as versões</a>
+</p>
+
+Baixe o `MinhasFinancas.exe`, coloque onde preferir e dê dois cliques: não precisa instalar.
+Funciona no Windows 10 e 11 (64 bits); ele usa o
+[WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) da Microsoft, que já
+vem no Windows 11 e chega pelas atualizações do Windows 10.
+
+Como o `.exe` não tem assinatura digital paga, o Windows pode mostrar "O Windows protegeu
+o computador" na primeira vez: clique em **Mais informações** e em **Executar assim mesmo**.
+
+## Como usar
 
 1. **Renda do mês** (no topo): digite seu salário + extras. Pode digitar somas: `3500+800`.
 2. **Meus cartões**: já vem com **Nubank**, **Banco do Brasil** e **Bradesco**. Digite o
@@ -61,9 +74,11 @@ Os cartões e as contas que vencem em até 5 dias ganham um carimbo laranja; os 
 ## Onde ficam os dados
 
 Só no seu computador, em
-`%APPDATA%\com.matheus.minhasfinancas\financas.json`. O arquivo é gravado a cada
+`%APPDATA%\com.matheus.minhasfinancas\financas.json`. Cada pessoa que usa o programa tem o
+seu próprio arquivo, e nada é enviado para a internet. O arquivo é gravado a cada
 alteração, de forma segura (arquivo temporário + troca). Para fazer backup, é só copiar
-esse arquivo.
+esse arquivo. Para atualizar para uma versão nova, é só trocar o `.exe`: os dados
+continuam no mesmo lugar.
 
 ## Como o projeto é feito
 
@@ -118,4 +133,20 @@ Para gerar de novo o ícone e a moeda do README depois de mexer na pixel art:
 
 ```powershell
 node ferramentas/gerar_imagens.js
+```
+
+## Publicar uma versão nova
+
+As versões são publicadas sozinhas pelo GitHub Actions
+([`.github/workflows/release.yml`](.github/workflows/release.yml)): ao enviar uma tag
+`v...`, o GitHub roda os testes, compila o `.exe` no Windows e cria a release com ele.
+
+1. Troque a versão em `Cargo.toml` e em `tauri.conf.json` (ex.: `1.1.0`) e rode o
+   `compilar.ps1`, que também atualiza o `Cargo.lock`.
+2. Atualize o texto da release em [`.github/notas-da-versao.md`](.github/notas-da-versao.md).
+3. Faça o commit e envie a tag:
+
+```powershell
+git tag v1.1.0
+git push origin main v1.1.0
 ```
