@@ -81,14 +81,17 @@ ui/style.css                 visual (tema porão: pedra, papel e tinta)
 ui/app.js                    comportamento da tela
 ui/bancos.js                 bancos, cores, emblemas e bandeiras de cartão
 ui/graficos.js               gráficos de pizza
-ui/pixel.js                  pixel art (moeda, coração, caveira, saco, check)
+ui/pixel.js                  pixel art (moeda, coração, caveira e os itens das categorias)
 ferramentas/gerar_imagens.js gera o ícone e a moeda do README a partir da pixel art
 icons/                       ícone do programa
 docs/                        imagens do README
 ```
 
 Sobre o visual: o tema é **inspirado** no clima de jogos roguelike de porão (pedra escura,
-papel rabiscado, pixel art). Toda a arte é original, feita para este projeto; não usa
+papel rabiscado, pixel art). Cada categoria de conta tem seu "item" em pixel art: casinha
+(moradia), lâmpada (luz), gota (água), sinal (internet), maçã (mercado), carrinho
+(transporte), cápsula (saúde), livro (educação), dado (lazer), TV (assinaturas), baú
+(empréstimo), caixa (outros) e cartão (cartões de crédito). Toda a arte é original, feita para este projeto; não usa
 imagens, fontes ou personagens de nenhum jogo. As letras usam as fontes *Ink Free* e
 *Segoe Print*, que já vêm no Windows. Os emblemas dos bancos são desenhos em SVG feitos
 só para identificar cada cartão no programa; as marcas pertencem aos respectivos bancos.

@@ -10,22 +10,28 @@ const invoke = window.__TAURI__?.core?.invoke;
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
   'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
+// "pixel" = nome do item em pixel art (ui/pixel.js) que representa a categoria.
 const CATEGORIAS = [
-  { id: 'moradia', nome: 'Moradia / Aluguel', icone: '🏠', cor: '#EA580C' },
-  { id: 'energia', nome: 'Luz', icone: '💡', cor: '#EAB308' },
-  { id: 'agua', nome: 'Água', icone: '💧', cor: '#06B6D4' },
-  { id: 'internet', nome: 'Internet / Celular', icone: '📶', cor: '#7C3AED' },
-  { id: 'mercado', nome: 'Mercado', icone: '🛒', cor: '#16A34A' },
-  { id: 'transporte', nome: 'Transporte', icone: '🚗', cor: '#64748B' },
-  { id: 'saude', nome: 'Saúde', icone: '💊', cor: '#DC2626' },
-  { id: 'educacao', nome: 'Educação', icone: '🎓', cor: '#65A30D' },
-  { id: 'lazer', nome: 'Lazer', icone: '🎉', cor: '#EC4899' },
-  { id: 'assinaturas', nome: 'Assinaturas', icone: '📺', cor: '#C026D3' },
-  { id: 'emprestimo', nome: 'Empréstimo / Financiamento', icone: '🏦', cor: '#78716C' },
-  { id: 'outros', nome: 'Outros', icone: '📦', cor: '#94A3B8' },
+  { id: 'moradia', nome: 'Moradia / Aluguel', pixel: 'casa', cor: '#EA580C' },
+  { id: 'energia', nome: 'Luz', pixel: 'lampada', cor: '#EAB308' },
+  { id: 'agua', nome: 'Água', pixel: 'gota', cor: '#06B6D4' },
+  { id: 'internet', nome: 'Internet / Celular', pixel: 'sinal', cor: '#7C3AED' },
+  { id: 'mercado', nome: 'Mercado', pixel: 'maca', cor: '#16A34A' },
+  { id: 'transporte', nome: 'Transporte', pixel: 'carro', cor: '#64748B' },
+  { id: 'saude', nome: 'Saúde', pixel: 'pilula', cor: '#DC2626' },
+  { id: 'educacao', nome: 'Educação', pixel: 'livro', cor: '#65A30D' },
+  { id: 'lazer', nome: 'Lazer', pixel: 'dado', cor: '#EC4899' },
+  { id: 'assinaturas', nome: 'Assinaturas', pixel: 'tv', cor: '#C026D3' },
+  { id: 'emprestimo', nome: 'Empréstimo / Financiamento', pixel: 'bau', cor: '#78716C' },
+  { id: 'outros', nome: 'Outros', pixel: 'caixa', cor: '#94A3B8' },
 ];
-const CATEGORIA_CARTOES = { id: 'cartoes', nome: 'Cartões de crédito', icone: '💳', cor: '#2563EB' };
-const CATEGORIA_PIX = { id: 'pix', nome: 'Pix', icone: pixSvg(18), cor: PIX_COR };
+const CATEGORIA_CARTOES = { id: 'cartoes', nome: 'Cartões de crédito', pixel: 'cartao', cor: '#2563EB' };
+const CATEGORIA_PIX = { id: 'pix', nome: 'Pix', pixel: null, cor: PIX_COR };
+
+/** Ícone da categoria: item em pixel art (o Pix usa a própria marca). */
+function iconeCategoria(cat, tamanho) {
+  return cat.pixel ? pixelSvg(cat.pixel, tamanho) : pixSvg(tamanho);
+}
 
 const SUGESTOES_CONTA = [
   ['Aluguel', 'moradia'], ['Condomínio', 'moradia'], ['Conta de luz', 'energia'], ['Conta de água', 'agua'],
@@ -278,7 +284,7 @@ function renderContas(v) {
       <div class="conta-linha ${c.pago ? 'paga' : ''}">
         <button class="check ${c.pago ? 'marcado' : ''}" data-acao="pagar-conta" data-id="${c.id}"
                 title="${c.pago ? 'Desmarcar pagamento' : 'Marcar como paga'}">${ICONES.check}</button>
-        <div class="conta-icone" style="--cor:${cat.cor}">${cat.icone}</div>
+        <div class="conta-icone" style="--cor:${cat.cor}">${iconeCategoria(cat, 24)}</div>
         <div class="conta-info">
           <strong>${esc(c.nome)}</strong>
           <span>${esc(detalhes.join(' · '))}${c.fixa ? ` <em class="fixa" title="Repete nos próximos meses">${ICONES.repetir} fixa</em>` : ''}</span>
@@ -409,7 +415,7 @@ function renderGraficos(v) {
 
   desenharPizza($('#graf-categorias'), r.por_categoria.map((f) => {
     const cat = categoria(f.chave);
-    return { nome: cat.nome, valor: f.valor, cor: cat.cor, icone: `<span class="leg-emoji">${cat.icone}</span>` };
+    return { nome: cat.nome, valor: f.valor, cor: cat.cor, icone: `<span class="leg-emoji">${iconeCategoria(cat, 20)}</span>` };
   }), {
     titulo: 'Gastos por categoria',
     vazio: 'Quando você lançar faturas e contas, a divisão por categoria aparece aqui.',
@@ -634,7 +640,7 @@ function modalConta(conta) {
       ${editando ? '' : `
         <span class="rotulo">Atalhos</span>
         <div class="sugestoes">
-          ${SUGESTOES_CONTA.map(([nome, cat]) => `<button type="button" class="chip" data-nome="${nome}" data-cat="${cat}">${categoria(cat).icone} ${nome}</button>`).join('')}
+          ${SUGESTOES_CONTA.map(([nome, cat]) => `<button type="button" class="chip" data-nome="${nome}" data-cat="${cat}">${iconeCategoria(categoria(cat), 18)}<span>${nome}</span></button>`).join('')}
         </div>`}
       <label class="campo-largo">Nome da conta<input id="ct-nome" maxlength="60" placeholder="Ex.: Aluguel, Conta de luz"></label>
 
@@ -642,7 +648,7 @@ function modalConta(conta) {
       <div class="grade-categorias">
         ${CATEGORIAS.map((c) => `
           <button type="button" class="opcao-categoria" data-cat="${c.id}" style="--cor:${c.cor}">
-            <span class="cat-emoji">${c.icone}</span><span>${c.nome}</span>
+            <span class="cat-emoji">${iconeCategoria(c, 22)}</span><span>${c.nome}</span>
           </button>`).join('')}
       </div>
 

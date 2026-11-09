@@ -1,7 +1,7 @@
 'use strict';
 /*
- * Pixel art original do Minhas Finanças (moeda, coração, caveira, saco e
- * "check"), gerada em SVG com pixels nítidos. Também é usada pelo script que
+ * Pixel art original do Minhas Finanças (moeda, coração, caveira, saco, "check"
+ * e os itens de cada categoria), gerada em SVG com pixels nítidos. Também é usada pelo script que
  * gera o ícone do programa e a imagem do README.
  */
 
@@ -21,6 +21,18 @@ const PIXEL_CORES = {
   C: '#B8A888', // osso sombra
   g: '#6DB33F', // verde
   G: '#3F7A1F', // verde escuro
+  k: '#3B6FB6', // azul
+  K: '#24477A', // azul escuro
+  l: '#A9D4F5', // azul claro
+  v: '#8FD0F2', // vidro
+  n: '#A8A8A8', // metal
+  N: '#6B6B6B', // metal escuro
+  t: '#B07A3E', // madeira
+  T: '#7A5228', // madeira escura
+  m: '#8E44AD', // roxo
+  M: '#5E2D79', // roxo escuro
+  a: '#D9AE6E', // papelão
+  A: '#A97E45', // papelão escuro
 };
 
 /** Moeda 16x16 desenhada por geometria: contorno, aro com luz e sombra, anel em relevo. */
@@ -107,6 +119,168 @@ const PIXEL_MAPAS = {
     'ogggGo...',
     '.ogGo....',
     '..oo.....',
+  ],
+
+  // ----- itens das categorias -----
+  casa: [
+    '.....oo.....',
+    '....orRo....',
+    '...orrrRo...',
+    '..orrrrrRo..',
+    '.orrrrrrrRo.',
+    'oooooooooooo',
+    '.occcccccCo.',
+    '.okkocctTCo.',
+    '.okkocctTCo.',
+    '.occcccttCo.',
+    '.occcccttCo.',
+    '.oooooooooo.',
+  ],
+  lampada: [
+    '....oooo....',
+    '...ohhyyo...',
+    '..ohwyyyso..',
+    '..ohyyyyso..',
+    '..oyyyyyso..',
+    '...oyyyso...',
+    '...oyyyso...',
+    '....oooo....',
+    '....onno....',
+    '....oNNo....',
+    '....onno....',
+    '.....oo.....',
+  ],
+  gota: [
+    '....oo....',
+    '...okko...',
+    '..okkkko..',
+    '..olkkko..',
+    '.olkkkkko.',
+    '.olkkkkKo.',
+    'olkkkkkkKo',
+    'olwkkkkkKo',
+    'olkkkkkKKo',
+    '.okkkkKKo.',
+    '..oKKKKo..',
+    '...oooo...',
+  ],
+  sinal: [
+    '.........ooo',
+    '.........oko',
+    '......oooolo',
+    '......okooko',
+    '...oooolooko',
+    '...okooKooKo',
+    'oooolooKooKo',
+    'okooKooKooKo',
+    'oKooKooKooKo',
+    'oooooooooooo',
+  ],
+  maca: [
+    '......o.....',
+    '.....ot.oo..',
+    '.....otogGo.',
+    '..oooootoo..',
+    '.oprrroorro.',
+    'oprrrrrrrrRo',
+    'orrrrrrrrrRo',
+    'orrrrrrrrrRo',
+    'orrrrrrrrRRo',
+    '.orrrrrrRRo.',
+    '..orrRoRRo..',
+    '...ooo.ooo..',
+  ],
+  carro: [
+    '...oooooo...',
+    '..ovvoovvo..',
+    '.ovvvoovvvo.',
+    'oooooooooooo',
+    'okkkkkkkkkKo',
+    'olkkkkkkkKKo',
+    'ooNNooooNNoo',
+    '.oNNo..oNNo.',
+    '..oo....oo..',
+  ],
+  pilula: [
+    '.oooooooooo.',
+    'oprrrrocccCo',
+    'orrrrrocccCo',
+    'oRRRRRoCCCCo',
+    '.oooooooooo.',
+  ],
+  livro: [
+    '.ooooooooooo',
+    'oMmmmmmmmmMo',
+    'oMhhhhhhmmMo',
+    'oMmmmmmmmmMo',
+    'oMmmmmmmmmMo',
+    'oMmmmmmmmmMo',
+    'oMmmmmmmmmMo',
+    'oMMMMMMMMMMo',
+    'occcccccccCo',
+    '.ooooooooooo',
+  ],
+  dado: [
+    '.oooooooooo.',
+    'occcccccccCo',
+    'ocrrccccrrCo',
+    'ocrrccccrrCo',
+    'occcccccccCo',
+    'occccrrcccCo',
+    'occccrrcccCo',
+    'occcccccccCo',
+    'ocrrccccrrCo',
+    'ocrrccccrrCo',
+    'oCCCCCCCCCCo',
+    '.oooooooooo.',
+  ],
+  tv: [
+    '..o.....o...',
+    '...o...o....',
+    '....o.o.....',
+    'oooooooooooo',
+    'otvvvvvvtnto',
+    'otvwvvvvtNto',
+    'otvvvvvvtnto',
+    'otvvvvvvtNto',
+    'oTTTTTTTTTTo',
+    'oooooooooooo',
+    '.oo......oo.',
+  ],
+  bau: [
+    '.oooooooooo.',
+    'otttttttttTo',
+    'otttttttttTo',
+    'ooooohhooooo',
+    'otttoyyottTo',
+    'otttoysottTo',
+    'ottttoottTTo',
+    'otttttttttTo',
+    'oTTTTTTTTTTo',
+    'oooooooooooo',
+  ],
+  caixa: [
+    '.oooooooooo.',
+    'oaaaaTTaaaAo',
+    'oaaaaTTaaaAo',
+    'oooooooooooo',
+    'oaaaaTTaaaAo',
+    'oaaaaaaaaaAo',
+    'oaaaaaaaaaAo',
+    'oaaaaaaaaaAo',
+    'oAAAAAAAAAAo',
+    'oooooooooooo',
+  ],
+  cartao: [
+    'oooooooooooo',
+    'okkkkkkkkkKo',
+    'okhykkkkkkKo',
+    'okyskkkkkkKo',
+    'okkkkkkkkkKo',
+    'oklllklllkKo',
+    'okkkkkkkkkKo',
+    'oKKKKKKKKKKo',
+    'oooooooooooo',
   ],
 };
 
