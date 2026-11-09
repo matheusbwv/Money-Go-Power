@@ -78,6 +78,11 @@ function desenharPizza(el, fatias, opcoes = {}) {
       <path d="${d}" fill="${p.cor}" fill-rule="evenodd"/>${rotulo}</g>`;
   }).join('');
 
+  // Sombra só do círculo (desenhada atrás), para não "duplicar" os textos.
+  const sombra = RI
+    ? `<path d="${caminhoCirculoInteiro(R, RI)}" transform="translate(4 5)" fill="rgba(0,0,0,.32)" fill-rule="evenodd"/>`
+    : `<circle cx="${PIZZA.C + 4}" cy="${PIZZA.C + 5}" r="${R}" fill="rgba(0,0,0,.32)"/>`;
+
   let centro = '';
   if (RI && opcoes.centro) {
     centro = `<text class="centro-valor ${opcoes.centro.classe || ''}" x="100" y="94">${esc(opcoes.centro.valor)}</text>
@@ -97,7 +102,7 @@ function desenharPizza(el, fatias, opcoes = {}) {
     <div class="grafico-conteudo">
       <div class="grafico-svg">
         <svg viewBox="-10 -10 220 220" role="img" aria-label="${esc(opcoes.titulo || 'Gráfico de pizza')}">
-          ${fatiasSvg}${centro}
+          ${sombra}${fatiasSvg}${centro}
         </svg>
       </div>
       <ul class="legenda">${legenda}</ul>
