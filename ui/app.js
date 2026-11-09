@@ -33,7 +33,7 @@ const SUGESTOES_CONTA = [
   ['Plano de saúde', 'saude'], ['Faculdade', 'educacao'], ['Streaming', 'assinaturas'], ['Financiamento', 'emprestimo'],
 ];
 
-const CORES_RENDA = { pago: '#6366F1', falta: '#F97316', livre: '#22C55E' };
+const CORES_RENDA = { pago: '#3F7A1F', falta: '#A8231A', livre: '#E9B53B' };
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const numero = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -169,6 +169,12 @@ function renderResumo(r) {
   $('#sobra-detalhe').textContent = r.renda > 0
     ? `${brl.format(r.renda)} − ${brl.format(r.total)}`
     : 'Informe a renda para calcular';
+  $('#icone-sobra').innerHTML = pixelSvg(r.sobra < 0 ? 'coracaoPartido' : 'coracao', 26);
+
+  // Contador de moedas no topo: quanto sobra no mês.
+  const hud = $('#hud-moedas');
+  hud.classList.toggle('negativo', r.sobra < 0);
+  hud.innerHTML = `${pixelSvg('moeda', 30)}<div><small>sobra</small><strong>× ${brl.format(r.sobra)}</strong></div>`;
 }
 
 function renderCartoes(v) {
@@ -194,7 +200,7 @@ function renderCartoes(v) {
           <div class="ci-acoes">
             <button class="pill-pago ${c.pago ? 'marcado' : ''}" data-acao="pagar-fatura" data-id="${c.id}"
                     ${c.valor > 0 || c.pago ? '' : 'disabled'}>
-              ${ICONES.check}<span>${c.pago ? 'Paga' : 'Marcar como paga'}</span>
+              ${ICONES.check}<span>${c.pago ? 'Paga' : 'Já paguei'}</span>
             </button>
             ${status && !c.pago ? `<span class="selo ${status.classe}">${status.texto}</span>` : ''}
             <span class="espaco"></span>
@@ -255,7 +261,7 @@ function renderContas(v) {
   if (!n) {
     lista.innerHTML = `
       <div class="vazio">
-        <span>🧾</span>
+        ${pixelSvg('saco', 40)}
         <p>Nenhuma outra conta em ${nomeMes(estado.mes).toLowerCase()}.</p>
         <button class="btn-secundario" data-acao="add-conta">Adicionar aluguel, luz, água…</button>
       </div>`;
@@ -776,10 +782,6 @@ function gravarPreferencia(chave, valor) {
   try { localStorage.setItem(chave, valor); } catch { /* sem armazenamento */ }
 }
 
-function aplicarTema(tema) {
-  document.documentElement.dataset.theme = tema;
-}
-
 // ---------------------------------------------------------------------------
 // Eventos
 // ---------------------------------------------------------------------------
@@ -938,16 +940,12 @@ $('#pix-icone-titulo').innerHTML = pixSvg(38);
 $('#mes-anterior').addEventListener('click', () => irParaMes(somarMeses(estado.mes, -1)));
 $('#mes-proximo').addEventListener('click', () => irParaMes(somarMeses(estado.mes, 1)));
 $('#mes-hoje').addEventListener('click', () => irParaMes(chaveMes(new Date())));
-$('#tema').addEventListener('click', () => {
-  const novo = document.documentElement.dataset.theme === 'escuro' ? 'claro' : 'escuro';
-  aplicarTema(novo);
-  gravarPreferencia('tema', novo);
-});
 
 // ---------------------------------------------------------------------------
 // Início
 // ---------------------------------------------------------------------------
 
-aplicarTema(lerPreferencia('tema') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro'));
+$('#marca-icone').innerHTML = pixelSvg('moeda', 42);
+$$('[data-pixel]').forEach((el) => { el.innerHTML = pixelSvg(el.dataset.pixel, 26); });
 renderTopo();
 chamar('carregar');

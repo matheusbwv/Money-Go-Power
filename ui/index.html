@@ -9,19 +9,10 @@
 <body>
   <header class="topo">
     <div class="marca">
-      <svg class="marca-icone" viewBox="0 0 48 48" aria-hidden="true">
-        <defs>
-          <linearGradient id="g-marca" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#6D28D9"/><stop offset="1" stop-color="#2563EB"/>
-          </linearGradient>
-        </defs>
-        <rect width="48" height="48" rx="13" fill="url(#g-marca)"/>
-        <path d="M24 10a14 14 0 1 0 14 14H24Z" fill="#fff" opacity=".95"/>
-        <path d="M27 7a14 14 0 0 1 14 14H27Z" fill="#FBD71E"/>
-      </svg>
+      <span class="marca-icone" id="marca-icone"></span>
       <div>
         <h1>Minhas Finanças</h1>
-        <span>Faturas e contas do mês, já somadas</span>
+        <span>Faturas, contas e Pix do mês, já somados</span>
       </div>
     </div>
 
@@ -40,17 +31,14 @@
     </nav>
 
     <div class="acoes-topo">
-      <button id="tema" class="btn-icone" title="Tema claro / escuro" aria-label="Alternar tema">
-        <svg class="icone-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
-        <svg class="icone-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      </button>
+      <div class="hud-moedas" id="hud-moedas" title="Quanto sobra no mês"></div>
     </div>
   </header>
 
   <main>
     <section class="resumo" aria-label="Resumo do mês">
       <div class="stat stat-renda">
-        <label for="renda">Renda do mês</label>
+        <div class="stat-topo"><span data-pixel="moeda"></span><label for="renda">Renda do mês</label></div>
         <div class="campo-dinheiro grande">
           <span>R$</span>
           <input id="renda" data-chave="renda" inputmode="decimal" autocomplete="off" placeholder="0,00"
@@ -59,23 +47,23 @@
         <small>Salário + extras (aceita somas)</small>
       </div>
       <div class="stat">
-        <span class="stat-rotulo">Total do mês</span>
+        <div class="stat-topo"><span data-pixel="saco"></span><span class="stat-rotulo">Total do mês</span></div>
         <strong id="total" class="stat-valor">R$ 0,00</strong>
         <small id="total-detalhe"></small>
       </div>
       <div class="stat stat-pago">
-        <span class="stat-rotulo">Já pago</span>
+        <div class="stat-topo"><span data-pixel="check"></span><span class="stat-rotulo">Já pago</span></div>
         <strong id="pago" class="stat-valor">R$ 0,00</strong>
         <div class="barra"><span id="barra-pago"></span></div>
         <small id="pago-detalhe"></small>
       </div>
       <div class="stat stat-falta">
-        <span class="stat-rotulo">Falta pagar</span>
+        <div class="stat-topo"><span data-pixel="caveira"></span><span class="stat-rotulo">Falta pagar</span></div>
         <strong id="falta" class="stat-valor">R$ 0,00</strong>
         <small id="falta-detalhe"></small>
       </div>
       <div class="stat stat-sobra" id="stat-sobra">
-        <span class="stat-rotulo">Sobra no mês</span>
+        <div class="stat-topo"><span id="icone-sobra"></span><span class="stat-rotulo">Sobra no mês</span></div>
         <strong id="sobra" class="stat-valor">R$ 0,00</strong>
         <small id="sobra-detalhe"></small>
       </div>
@@ -160,6 +148,7 @@
   <div id="toasts" aria-live="polite"></div>
   <div id="dica-grafico" class="dica-grafico" role="tooltip"></div>
 
+  <script src="pixel.js"></script>
   <script src="bancos.js"></script>
   <script src="graficos.js"></script>
   <script src="app.js"></script>
