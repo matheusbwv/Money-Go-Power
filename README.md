@@ -11,7 +11,11 @@
 </p>
 
 <p align="center">
-  <img src="docs/tela.jpg" width="900" alt="Tela do Minhas Finanças">
+  <img src="docs/tela.jpg" width="900" alt="Tela do Minhas Finanças: resumo do mês, cartões e gráfico por banco">
+</p>
+
+<p align="center">
+  <img src="docs/tela-2.jpg" width="900" alt="Tela do Minhas Finanças: gastos no Pix e quanto da renda está comprometido">
 </p>
 
 ## Como usar
