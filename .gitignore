@@ -1,0 +1,11 @@
+# Pasta de compilação do Rust (normalmente fica fora do projeto, ver .cargo/config.toml)
+/target/
+
+# Executável gerado pelo compilar.ps1 (é recriado a partir do código)
+/MinhasFinancas.exe
+
+# Esquemas gerados automaticamente pelo Tauri a cada compilação
+/gen/schemas/
+
+# Temporários
+*.tmp

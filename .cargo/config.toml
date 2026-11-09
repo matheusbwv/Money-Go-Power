@@ -1,0 +1,5 @@
+# A pasta de compilação (target) fica fora do OneDrive: ela tem milhares de
+# arquivos temporários (1-2 GB) e o OneDrive costuma travá-los durante o build.
+# O executável final é copiado para a pasta do projeto pelo script compilar.ps1.
+[build]
+target-dir = "C:/Users/mathe/AppData/Local/MinhasFinancas-build"

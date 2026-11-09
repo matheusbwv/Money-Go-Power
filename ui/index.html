@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minhas Finanças</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <svg class="marca-icone" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="g-marca" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6D28D9"/><stop offset="1" stop-color="#2563EB"/>
+          </linearGradient>
+        </defs>
+        <rect width="48" height="48" rx="13" fill="url(#g-marca)"/>
+        <path d="M24 10a14 14 0 1 0 14 14H24Z" fill="#fff" opacity=".95"/>
+        <path d="M27 7a14 14 0 0 1 14 14H27Z" fill="#FBD71E"/>
+      </svg>
+      <div>
+        <h1>Minhas Finanças</h1>
+        <span>Faturas e contas do mês, já somadas</span>
+      </div>
+    </div>
+
+    <nav class="navegador-mes" aria-label="Escolher mês">
+      <button id="mes-anterior" class="btn-icone" title="Mês anterior (Alt + ←)" aria-label="Mês anterior">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="mes-titulo">
+        <strong id="mes-nome">—</strong>
+        <span id="mes-ano"></span>
+      </div>
+      <button id="mes-proximo" class="btn-icone" title="Próximo mês (Alt + →)" aria-label="Próximo mês">
+        <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <button id="mes-hoje" class="btn-texto" hidden>Voltar ao mês atual</button>
+    </nav>
+
+    <div class="acoes-topo">
+      <button id="tema" class="btn-icone" title="Tema claro / escuro" aria-label="Alternar tema">
+        <svg class="icone-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        <svg class="icone-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="resumo" aria-label="Resumo do mês">
+      <div class="stat stat-renda">
+        <label for="renda">Renda do mês</label>
+        <div class="campo-dinheiro grande">
+          <span>R$</span>
+          <input id="renda" data-chave="renda" inputmode="decimal" autocomplete="off" placeholder="0,00"
+                 title="Salário + extras. Pode digitar somas, ex.: 3500+800">
+        </div>
+        <small>Salário + extras (aceita somas)</small>
+      </div>
+      <div class="stat">
+        <span class="stat-rotulo">Total do mês</span>
+        <strong id="total" class="stat-valor">R$ 0,00</strong>
+        <small id="total-detalhe"></small>
+      </div>
+      <div class="stat stat-pago">
+        <span class="stat-rotulo">Já pago</span>
+        <strong id="pago" class="stat-valor">R$ 0,00</strong>
+        <div class="barra"><span id="barra-pago"></span></div>
+        <small id="pago-detalhe"></small>
+      </div>
+      <div class="stat stat-falta">
+        <span class="stat-rotulo">Falta pagar</span>
+        <strong id="falta" class="stat-valor">R$ 0,00</strong>
+        <small id="falta-detalhe"></small>
+      </div>
+      <div class="stat stat-sobra" id="stat-sobra">
+        <span class="stat-rotulo">Sobra no mês</span>
+        <strong id="sobra" class="stat-valor">R$ 0,00</strong>
+        <small id="sobra-detalhe"></small>
+      </div>
+    </section>
+
+    <div class="grade">
+      <div class="coluna-principal">
+        <section class="painel">
+          <div class="painel-cabecalho">
+            <div>
+              <h2>Meus cartões</h2>
+              <span class="sub" id="cartoes-sub"></span>
+            </div>
+            <button class="btn-primario" data-acao="add-cartao">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar cartão
+            </button>
+          </div>
+          <p class="dica-uso">Digite o valor da fatura de cada cartão. Dá para digitar somas, tipo <code>350+89,90+120</code>, que eu somo pra você.</p>
+          <div id="lista-cartoes" class="lista-cartoes"></div>
+        </section>
+
+        <section class="painel">
+          <div class="painel-cabecalho">
+            <div>
+              <h2>Outras contas do mês</h2>
+              <span class="sub" id="contas-sub"></span>
+            </div>
+            <button class="btn-primario" data-acao="add-conta">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar conta
+            </button>
+          </div>
+          <div id="lista-contas" class="lista-contas"></div>
+        </section>
+
+        <section class="painel painel-pix" id="painel-pix">
+          <div class="painel-cabecalho">
+            <div class="titulo-com-icone">
+              <span id="pix-icone-titulo"></span>
+              <div>
+                <h2>Gastos no Pix</h2>
+                <span class="sub" id="pix-sub"></span>
+              </div>
+            </div>
+            <div id="pix-por-banco" class="pix-por-banco"></div>
+          </div>
+          <p class="dica-uso">Anote cada Pix que você fez no mês. Ele já entra no total e conta como pago, porque o dinheiro já saiu.</p>
+          <form id="form-pix" class="form-pix" autocomplete="off">
+            <input id="pix-descricao" maxlength="60" placeholder="Pra quem / o quê? Ex.: Feira, Uber, João" aria-label="Descrição do Pix">
+            <div class="campo-dinheiro"><span>R$</span><input id="pix-valor" inputmode="decimal" placeholder="0,00" aria-label="Valor do Pix"></div>
+            <input id="pix-dia" type="number" min="1" max="31" placeholder="Dia" aria-label="Dia do Pix">
+            <select id="pix-banco" aria-label="Banco de onde saiu"></select>
+            <button class="btn-primario btn-pix" type="submit">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar Pix
+            </button>
+          </form>
+          <div id="lista-pix" class="lista-contas lista-pix"></div>
+        </section>
+      </div>
+
+      <aside class="coluna-graficos">
+        <section class="painel grafico">
+          <h2>Gastos por banco</h2>
+          <div id="graf-bancos" class="grafico-area"></div>
+        </section>
+        <section class="painel grafico">
+          <h2>Gastos por categoria</h2>
+          <div id="graf-categorias" class="grafico-area"></div>
+        </section>
+        <section class="painel grafico">
+          <h2>Quanto da renda está comprometido</h2>
+          <div id="graf-renda" class="grafico-area"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    Seus dados ficam salvos só neste computador, em <code id="arquivo">—</code>
+  </footer>
+
+  <div id="modal-raiz"></div>
+  <div id="toasts" aria-live="polite"></div>
+  <div id="dica-grafico" class="dica-grafico" role="tooltip"></div>
+
+  <script src="bancos.js"></script>
+  <script src="graficos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
