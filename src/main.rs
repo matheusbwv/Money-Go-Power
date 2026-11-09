@@ -20,7 +20,7 @@ impl Estado {
     fn ver(&self, mes: &str) -> Result<Visao, String> {
         dados::validar_mes(mes)?;
         let d = self.dados.lock().map_err(|_| "Erro interno (trava).".to_string())?;
-        Ok(self.montar(&d, mes))
+        Ok(d.visao(mes))
     }
 
     /// Aplica a alteração numa cópia, salva no disco e só então confirma.
@@ -36,13 +36,7 @@ impl Estado {
         alteracao(&mut nova)?;
         salvar(&self.arquivo, &nova)?;
         *d = nova;
-        Ok(self.montar(&d, mes))
-    }
-
-    fn montar(&self, d: &Dados, mes: &str) -> Visao {
-        let mut v = d.visao(mes);
-        v.arquivo = self.arquivo.display().to_string();
-        v
+        Ok(d.visao(mes))
     }
 }
 

@@ -30,10 +30,15 @@ const BANCOS = [
   },
   {
     id: 'bradesco', nome: 'Bradesco', cor: '#CC092F', cor2: '#7A0019', texto: '#FFFFFF',
-    desenho: `<rect width="48" height="48" rx="12" fill="#CC092F"/>
-      <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round">
-        <path d="M12 27.5c4-9 20-9 24 0"/><path d="M15.5 21.5c3.5-6.5 13.5-6.5 17 0"/>
-        <path d="M19.5 15.8c2.5-3 6.5-3 9 0"/><path d="M24 27.5V37"/>
+    // Árvore: arco grosso (copa), laço que atravessa e faz a curva à direita, e o
+    // tronco de duas barras com topo inclinado. Redesenhado a partir da marca do
+    // banco (coordenadas da imagem de referência, reduzidas para 48x48).
+    desenho: `<rect width="48" height="48" rx="12" fill="#E0072D"/>
+      <g fill="#fff" transform="translate(-3.9 -3.8) scale(0.127)">
+        <path d="M164 289C130 262 110 230 111 195C112 130 160 82 222 81C262 80 295 98 313 122C318 128 312 134 305 129C285 112 265 105 240 106C205 107 175 123 159 145C147 162 138 185 139 210C139 240 152 268 172 284C176 290 168 293 164 289Z"/>
+        <path d="M74 177C95 165 130 150 200 143C270 138 330 160 355 185C372 203 370 230 352 250C335 268 305 282 281 289C274 291 272 282 278 279C305 267 330 250 333 228C336 205 305 185 265 177C225 168 175 165 145 168C120 170 95 178 80 182C72 184 70 179 74 177Z"/>
+        <path d="M196 359L196 293Q196 289 200 287L216 280L216 359Z"/>
+        <path d="M223 359L223 275L248 262Q252 260 252 265L252 359Z"/>
       </g>`,
   },
   {

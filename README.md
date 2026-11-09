@@ -61,9 +61,9 @@ Os cartões e as contas que vencem em até 5 dias ganham um carimbo laranja; os 
 ## Onde ficam os dados
 
 Só no seu computador, em
-`%APPDATA%\com.matheus.minhasfinancas\financas.json` (o caminho aparece no rodapé do
-programa). O arquivo é gravado a cada alteração, de forma segura (arquivo temporário +
-troca). Para fazer backup, é só copiar esse arquivo.
+`%APPDATA%\com.matheus.minhasfinancas\financas.json`. O arquivo é gravado a cada
+alteração, de forma segura (arquivo temporário + troca). Para fazer backup, é só copiar
+esse arquivo.
 
 ## Como o projeto é feito
 
@@ -102,8 +102,14 @@ powershell -ExecutionPolicy Bypass -File .\compilar.ps1
 ```
 
 O script roda os testes, compila e copia o `MinhasFinancas.exe` para a pasta do projeto.
-Os arquivos temporários da compilação ficam fora do OneDrive, em
-`%LOCALAPPDATA%\MinhasFinancas-build` (definido em `.cargo/config.toml`).
+Os arquivos temporários da compilação vão para a pasta `target/`. Se o projeto estiver
+dentro do OneDrive, é melhor mandar essa pasta para fora dele (o OneDrive costuma travar
+esses arquivos), criando um `.cargo/config.toml` local, que não vai para o Git:
+
+```toml
+[build]
+target-dir = "C:/MinhasFinancas-build"
+```
 
 Para gerar de novo o ícone e a moeda do README depois de mexer na pixel art:
 

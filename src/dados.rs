@@ -167,7 +167,6 @@ pub struct Visao {
     pub contas: Vec<ContaVisao>,
     pub pix: Vec<PixVisao>,
     pub resumo: Resumo,
-    pub arquivo: String,
 }
 
 #[derive(Serialize, Debug)]
@@ -521,7 +520,6 @@ impl Dados {
                 })
                 .collect(),
             resumo,
-            arquivo: String::new(),
         }
     }
 }

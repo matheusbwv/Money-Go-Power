@@ -61,7 +61,7 @@ body::before {
   z-index: 0;
   background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .8) 100%);
 }
-main, .rodape { position: relative; z-index: 1; }
+main { position: relative; z-index: 1; }
 
 h1, h2, h3 { margin: 0; font-family: var(--titulo); font-weight: 700; letter-spacing: -0.01em; }
 /* Título com um traço de tinta feito à mão embaixo (não ondulado, para não
@@ -231,7 +231,7 @@ svg { display: block; }
 .hud-moedas.negativo strong { color: #FF7A6E; }
 
 /* ===================== Layout ===================== */
-main { padding: 22px 24px 8px; max-width: 1680px; margin: 0 auto; }
+main { padding: 22px 24px 32px; max-width: 1680px; margin: 0 auto; }
 
 .resumo {
   display: grid;
@@ -703,9 +703,6 @@ input.invalido {
 .dica-grafico span:last-child { grid-column: 2; opacity: .85; }
 .dica-cor { width: 11px; height: 11px; border: 1.5px solid var(--creme); }
 
-/* ===================== Rodapé ===================== */
-.rodape { text-align: center; color: #9C8564; font-size: 13.5px; padding: 20px 24px 28px; }
-.rodape code { background: rgba(0, 0, 0, .35); border-color: #5A4030; color: #CDB685; }
 
 /* ===================== Modais ===================== */
 .modal-fundo {

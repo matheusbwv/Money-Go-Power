@@ -125,7 +125,6 @@ function renderizar() {
   renderContas(v);
   renderPix(v);
   renderGraficos(v);
-  $('#arquivo').textContent = v.arquivo || '—';
   restaurarFoco(foco);
 }
 

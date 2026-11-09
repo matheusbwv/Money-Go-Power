@@ -1,5 +1,8 @@
-# Pasta de compilação do Rust (normalmente fica fora do projeto, ver .cargo/config.toml)
+# Pasta de compilação do Rust
 /target/
+
+# Configuração local do cargo (tem caminhos deste computador)
+/.cargo/config.toml
 
 # Executável gerado pelo compilar.ps1 (é recriado a partir do código)
 /MinhasFinancas.exe
