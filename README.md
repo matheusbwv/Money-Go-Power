@@ -150,3 +150,6 @@ As versões são publicadas sozinhas pelo GitHub Actions
 git tag v1.1.0
 git push origin main v1.1.0
 ```
+
+Também dá para publicar sem tag: na aba **Actions** do GitHub, abra **Release** e clique em
+**Run workflow**. Ele usa a versão que está no `Cargo.toml`.

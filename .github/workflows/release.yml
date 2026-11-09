@@ -1,10 +1,12 @@
-# Publica uma versão nova quando uma tag "v..." é enviada (ex.: git push origin v1.0.0):
+# Publica uma versão nova quando uma tag "v..." é enviada (ex.: git push origin v1.0.0)
+# ou pelo botão "Run workflow" na aba Actions (usa a versão do Cargo.toml):
 # roda os testes, compila o MinhasFinancas.exe no Windows e cria a release com o .exe anexado.
 name: Release
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -26,8 +28,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            $tag = $env:GITHUB_REF_NAME
+          } else {
+            $tag = 'v' + (cargo metadata --no-deps --format-version 1 | ConvertFrom-Json).packages[0].version
+          }
           $exe = 'target/release/MinhasFinancas.exe'
-          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
-          $notas = (Get-Content .github/notas-da-versao.md -Raw -Encoding utf8).Replace('{{SHA256}}', $hash)
-          Set-Content notas.md $notas -Encoding utf8
-          gh release create "$env:GITHUB_REF_NAME" $exe --title "Money Go Power $env:GITHUB_REF_NAME" --notes-file notas.md
+          $notas = '.github/notas-da-versao.md'
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            # a release desta versão já existe: troca o .exe e o texto
+            gh release upload $tag $exe --clobber
+            gh release edit $tag --notes-file $notas
+          } else {
+            gh release create $tag $exe --title "Money Go Power $tag" --notes-file $notas --target $env:GITHUB_SHA
+          }
