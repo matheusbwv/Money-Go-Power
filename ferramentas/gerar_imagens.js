@@ -1,6 +1,7 @@
 // Gera as imagens do projeto a partir da pixel art de ui/pixel.js:
 //   docs/moeda.svg       moeda grande para o README
 //   icons/icon.png/.ico  ícone do programa (moeda em pixel art)
+//   web/publico/icones/  ícones da versão de celular (tela de início do iPhone/Android)
 // Uso: node ferramentas/gerar_imagens.js   (só usa módulos do próprio Node)
 
 const fs = require('fs');
@@ -99,3 +100,37 @@ tamanhos.forEach((t, i) => {
 fs.writeFileSync(path.join(raiz, 'icons', 'icon.ico'), Buffer.concat([cab, ...imagens]));
 
 console.log('Gerado: docs/moeda.svg, icons/icon.png, icons/icon.ico');
+
+// ---------- Ícones da versão de celular ----------
+// Fundo escuro do "porão" (o iPhone não aceita transparência) com a moeda no meio,
+// ampliada em número inteiro de vezes para os pixels ficarem nítidos.
+function iconeApp(tamanho, fracao) {
+  const fundo = [0x1a, 0x11, 0x0b];
+  const mapa = PIXEL_MAPAS.moeda;
+  const n = mapa.length;
+  const escala = Math.max(1, Math.floor((tamanho * fracao) / n));
+  const inicio = Math.floor((tamanho - n * escala) / 2);
+  const buf = Buffer.alloc(tamanho * tamanho * 4);
+  for (let y = 0; y < tamanho; y++) {
+    for (let x = 0; x < tamanho; x++) {
+      const i = (y * tamanho + x) * 4;
+      const ch = mapa[Math.floor((y - inicio) / escala)]?.[Math.floor((x - inicio) / escala)];
+      const hex = ch && ch !== '.' && x >= inicio && y >= inicio ? PIXEL_CORES[ch] : null;
+      const cor = hex ? [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16)) : fundo;
+      buf[i] = cor[0];
+      buf[i + 1] = cor[1];
+      buf[i + 2] = cor[2];
+      buf[i + 3] = 255;
+    }
+  }
+  return png(tamanho, tamanho, buf);
+}
+
+const pastaIcones = path.join(raiz, 'web', 'publico', 'icones');
+fs.mkdirSync(pastaIcones, { recursive: true });
+fs.writeFileSync(path.join(pastaIcones, 'icone-180.png'), iconeApp(180, 0.72));
+fs.writeFileSync(path.join(pastaIcones, 'icone-192.png'), iconeApp(192, 0.72));
+fs.writeFileSync(path.join(pastaIcones, 'icone-512.png'), iconeApp(512, 0.72));
+// "maskable": o Android pode cortar em círculo, então a moeda fica menor
+fs.writeFileSync(path.join(pastaIcones, 'icone-maskable-512.png'), iconeApp(512, 0.56));
+console.log('Gerado: web/publico/icones/ (180, 192, 512 e maskable 512)');

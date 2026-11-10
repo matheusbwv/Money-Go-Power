@@ -1,11 +1,12 @@
 'use strict';
 /*
  * Interface do Minhas Finanças.
- * Todos os cálculos e o salvamento ficam no Rust (src/dados.rs); aqui a
- * interface só desenha a "visão" do mês que o Rust devolve.
+ * Todos os cálculos ficam no Rust (src/dados.rs); aqui a interface só desenha a
+ * "visão" do mês que o Rust devolve. No Windows o Rust roda no .exe; no celular,
+ * em WebAssembly (veja ui/plataforma.js).
  */
 
-const invoke = window.__TAURI__?.core?.invoke;
+const invoke = window.plataforma?.invoke;
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
   'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -186,7 +187,7 @@ function renderCartoes(v) {
   const lista = $('#lista-cartoes');
   const ativos = v.cartoes.length;
   $('#cartoes-sub').textContent = ativos
-    ? `${ativos} cartão${ativos === 1 ? '' : 'es'} · total das faturas ${brl.format(v.resumo.total_cartoes)}`
+    ? `${ativos} ${ativos === 1 ? 'cartão' : 'cartões'} · total das faturas ${brl.format(v.resumo.total_cartoes)}`
     : 'Nenhum cartão cadastrado';
 
   const fatura = `Fatura de ${nomeMes(estado.mes).toLowerCase()}`;
@@ -512,6 +513,78 @@ function confirmar(titulo, mensagem, textoBotao = 'Remover') {
       sim.focus();
     });
   });
+}
+
+/** Só no celular: os dados ficam no aparelho, então dá para guardar e restaurar uma cópia. */
+function modalBackup() {
+  abrirModal(`
+    ${cabecalhoModal('Backup dos dados')}
+    <div class="modal-corpo">
+      <p class="texto-confirmacao">Seus dados ficam só neste aparelho. Guarde uma cópia de vez em quando:
+        se o app for apagado ou os dados do navegador forem limpos, é com ela que você recupera tudo.</p>
+      <p class="sub">A cópia é um arquivo <code>.json</code> no mesmo formato do programa de Windows.</p>
+      <input type="file" id="bk-arquivo" accept=".json,application/json" hidden>
+    </div>
+    <footer class="modal-rodape">
+      <button class="btn-secundario" id="bk-restaurar">Restaurar cópia</button>
+      <button class="btn-primario" id="bk-salvar">Salvar cópia</button>
+    </footer>`, (modal) => {
+    $('#bk-salvar', modal).addEventListener('click', salvarBackup);
+    const arquivo = $('#bk-arquivo', modal);
+    $('#bk-restaurar', modal).addEventListener('click', () => arquivo.click());
+    arquivo.addEventListener('change', () => {
+      if (arquivo.files[0]) restaurarBackup(arquivo.files[0]);
+    });
+  });
+}
+
+async function salvarBackup() {
+  try {
+    const json = await window.plataforma.exportar();
+    const nome = `financas-${chaveMes(new Date())}-${String(new Date().getDate()).padStart(2, '0')}.json`;
+    const arquivo = new File([json], nome, { type: 'application/json' });
+    if (navigator.canShare?.({ files: [arquivo] })) {
+      try {
+        await navigator.share({ files: [arquivo], title: 'Backup do Minhas Finanças' });
+        fecharModal();
+        toast('Cópia pronta.');
+      } catch (e) {
+        if (e?.name !== 'AbortError') throw e;
+      }
+      return;
+    }
+    const url = URL.createObjectURL(arquivo);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    fecharModal();
+    toast(`Cópia salva: ${nome}`);
+  } catch (e) {
+    toast(`Não consegui gerar a cópia: ${e?.message || e}`, 'erro');
+  }
+}
+
+async function restaurarBackup(arquivo) {
+  let texto;
+  try {
+    texto = await arquivo.text();
+  } catch {
+    toast('Não consegui ler esse arquivo.', 'erro');
+    return;
+  }
+  if (!(await confirmar('Restaurar cópia',
+    `Trocar todos os dados deste aparelho pelos do arquivo <strong>${esc(arquivo.name)}</strong>?`, 'Restaurar'))) return;
+  try {
+    await window.plataforma.importar(texto);
+    await chamar('carregar');
+    toast('Cópia restaurada.');
+  } catch (e) {
+    toast(typeof e === 'string' ? e : e?.message || 'Não consegui restaurar.', 'erro');
+  }
 }
 
 function modalCartao(cartao) {
@@ -949,6 +1022,13 @@ $('#mes-hoje').addEventListener('click', () => irParaMes(chaveMes(new Date())));
 // ---------------------------------------------------------------------------
 // Início
 // ---------------------------------------------------------------------------
+
+if (window.plataforma?.tipo === 'web') {
+  const backup = $('#backup');
+  backup.innerHTML = pixelSvg('bau', 24);
+  backup.hidden = false;
+  backup.addEventListener('click', modalBackup);
+}
 
 $('#marca-icone').innerHTML = pixelSvg('moeda', 42);
 $$('[data-pixel]').forEach((el) => { el.innerHTML = pixelSvg(el.dataset.pixel, 26); });

@@ -1,0 +1,21 @@
+[package]
+name = "minhas-financas-web"
+version = "1.0.1"
+edition = "2021"
+description = "Núcleo do Minhas Finanças em WebAssembly, para a versão de celular (navegador)"
+publish = false
+
+[lib]
+# cdylib = gera o arquivo .wasm que a página carrega
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

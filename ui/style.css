@@ -18,8 +18,10 @@
   --laranja: #B9541A;
   --pix: #0F8C80;
 
-  --mao: "Ink Free", "Segoe Print", "Comic Sans MS", cursive;
-  --titulo: "Segoe Print", "Ink Free", "Comic Sans MS", cursive;
+  /* Ink Free e Segoe Print vêm no Windows; no iPhone entram a Chalkboard SE e a Noteworthy. */
+  --mao: "Ink Free", "Segoe Print", "Chalkboard SE", "Noteworthy", "Comic Sans MS", sans-serif;
+  --titulo: "Segoe Print", "Ink Free", "Chalkboard SE", "Noteworthy", "Comic Sans MS", sans-serif;
+  --mono: "Cascadia Mono", Consolas, Menlo, monospace;
 
   /* contornos "desenhados à mão" */
   --rabisco: 255px 15px 225px 15px / 15px 225px 15px 255px;
@@ -37,8 +39,9 @@
 html, body { margin: 0; }
 
 body {
-  min-width: 960px;
   color: var(--tinta);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--mao);
   font-size: 15.5px;
   line-height: 1.4;
@@ -109,7 +112,7 @@ input:focus, select:focus {
 input::placeholder { color: var(--tinta-3); opacity: .8; }
 
 code {
-  font-family: "Cascadia Mono", Consolas, monospace;
+  font-family: var(--mono);
   font-size: 12.5px;
   background: rgba(38, 23, 13, .08);
   border: 1.5px dashed var(--tinta-3);
@@ -176,6 +179,7 @@ svg { display: block; }
 .btn-icone:hover { background: var(--papel-2); transform: rotate(-4deg); }
 .btn-icone:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
 .btn-icone svg { width: 20px; height: 20px; stroke-width: 2.8; }
+.btn-icone svg.pixel { stroke: none; width: 24px; height: auto; }
 .btn-icone.pequeno {
   width: 32px;
   height: 32px;
@@ -426,14 +430,14 @@ input.invalido {
 }
 .cv-chip span { position: absolute; inset: 5px 9px; border: 1.5px solid rgba(90, 65, 15, .55); border-radius: 2px; }
 .cv-numero {
-  font-family: "Cascadia Mono", Consolas, monospace;
+  font-family: var(--mono);
   font-size: 13.5px;
   letter-spacing: .12em;
   opacity: .92;
   white-space: nowrap;
 }
 .cv-rodape { display: flex; align-items: flex-end; gap: 10px; position: relative; z-index: 1; padding-right: 2px; }
-.cv-rodape small { display: block; font-size: 9px; letter-spacing: .06em; opacity: .8; font-weight: 700; white-space: nowrap; font-family: "Segoe UI", sans-serif; }
+.cv-rodape small { display: block; font-size: 9px; letter-spacing: .06em; opacity: .8; font-weight: 700; white-space: nowrap; font-family: "Segoe UI", system-ui, sans-serif; }
 .cv-rodape strong { font-family: var(--titulo); font-size: 13.5px; white-space: nowrap; }
 .cv-bandeira { margin-left: auto; height: 22px; display: flex; align-items: center; }
 .cv-bandeira .bandeira-svg { height: 22px; width: auto; }
@@ -871,4 +875,115 @@ input.invalido {
 @media (max-width: 1120px) {
   .grade { grid-template-columns: 1fr; }
   .coluna-graficos { position: static; display: grid; grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===================== Celular ===================== */
+/* Sem mouse: os botões de editar/remover ficam sempre visíveis. */
+@media (hover: none) {
+  .conta-acoes { opacity: 1; }
+  .cartao-item:hover .cartao-visual { transform: rotate(-1.2deg); }
+  .cartao-item:nth-child(even):hover .cartao-visual { transform: rotate(1deg); }
+}
+
+@media (max-width: 720px) {
+  body { font-size: 15px; background-attachment: scroll; }
+
+  /* topo em duas linhas e sem ficar preso (ocuparia muito da tela) */
+  .topo {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "marca acoes" "mes mes";
+    gap: 4px 10px;
+    padding: calc(8px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) 10px calc(12px + env(safe-area-inset-left));
+  }
+  .marca { grid-area: marca; gap: 8px; min-width: 0; }
+  .marca > div { min-width: 0; }
+  .marca > div > span { display: none; }
+  .marca h1 { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .marca-icone .pixel { width: 30px; height: 30px; }
+  .acoes-topo { grid-area: acoes; align-items: center; }
+  .hud-moedas { font-size: 14px; gap: 5px; }
+  .hud-moedas .pixel { width: 22px; height: 22px; }
+  .hud-moedas small { font-size: 11px; }
+  .acoes-topo .btn-icone { width: 36px; height: 36px; }
+  .navegador-mes { grid-area: mes; justify-content: center; flex-wrap: wrap; gap: 8px; }
+  .mes-titulo { min-width: 150px; }
+  .mes-titulo strong { font-size: 21px; }
+  .mes-titulo span { font-size: 13px; }
+  .navegador-mes .btn-icone { width: 38px; height: 38px; }
+
+  main {
+    padding: 14px calc(10px + env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));
+  }
+
+  /* resumo: renda em cima, os outros quatro em 2 x 2 */
+  .resumo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; margin-bottom: 16px; }
+  .stat-renda { grid-column: span 2; }
+  .stat { padding: 9px 10px 10px; }
+  .stat label, .stat-rotulo { font-size: 12.5px; }
+  .stat-valor { font-size: 19px; }
+  .stat small { font-size: 12px; }
+  .stat-topo { gap: 6px; }
+  .stat-topo .pixel { width: 22px; height: auto; }
+
+  .grade { gap: 16px; }
+  .coluna-principal, .coluna-graficos { gap: 16px; }
+  .coluna-graficos { grid-template-columns: minmax(0, 1fr); }
+
+  .painel { padding: 13px 12px 14px; }
+  .painel-cabecalho { flex-wrap: wrap; align-items: flex-start; }
+  .painel-cabecalho .btn-primario { padding: 6px 12px; }
+  h2 { font-size: 18px; }
+  .dica-uso { font-size: 13.5px; }
+
+  .lista-cartoes { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .cartao-item { padding: 10px 8px 8px; }
+  .cartao-novo { min-height: 120px; padding: 14px; }
+
+  /* linhas de conta e de Pix: valor em cima, botões embaixo */
+  .conta-linha {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "check icone info valor" "check icone info acoes";
+    column-gap: 9px;
+    align-items: center;
+    padding: 9px 2px;
+  }
+  .conta-linha .check { grid-area: check; }
+  .conta-linha .conta-icone { grid-area: icone; width: 36px; height: 36px; }
+  .conta-linha .conta-info { grid-area: info; }
+  .conta-linha .conta-valor { grid-area: valor; min-width: 0; text-align: right; font-size: 15px; }
+  .conta-linha .conta-acoes { grid-area: acoes; justify-self: end; }
+  .conta-linha .selo { grid-column: 3 / 5; grid-row: 3; justify-self: start; margin-top: 6px; }
+  .conta-info span { flex-wrap: wrap; row-gap: 2px; font-size: 13px; }
+  .pix-linha { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "icone info valor" "icone info acoes"; }
+  .pix-linha .pix-origem { grid-area: icone; }
+  .pix-linha .selo { grid-column: 2 / 4; }
+
+  .pix-por-banco { justify-content: flex-start; }
+  .form-pix { grid-template-columns: minmax(0, 1fr) 86px; }
+  .form-pix #pix-descricao, .form-pix #pix-banco, .form-pix .btn-pix { grid-column: span 2; }
+  .form-pix .btn-pix { justify-content: center; padding: 9px 16px; }
+
+  .grafico-svg { width: 190px; }
+
+  /* janelas ocupando a largura da tela */
+  .modal-fundo { padding: calc(10px + env(safe-area-inset-top)) 8px calc(10px + env(safe-area-inset-bottom)); }
+  .modal { max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  .modal-cab { padding: 12px 14px 8px; }
+  .modal-corpo { padding: 12px 14px; }
+  .modal-rodape { padding: 10px 14px 14px; flex-wrap: wrap; }
+  .previa .cartao-visual { width: min(300px, 100%); }
+  .grade-bancos, .grade-categorias, .grade-bandeiras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .linha-campos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .linha-campos > label:first-child:nth-last-child(3) { grid-column: span 2; }
+  .campos-pix { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .campos-pix > label:last-child { grid-column: span 2; }
+  .campos-outro { grid-template-columns: minmax(0, 1fr) 110px; }
+
+  #toasts { left: 10px; right: 10px; bottom: calc(12px + env(safe-area-inset-bottom)); align-items: stretch; }
+  .toast { max-width: none; }
+}
+@media (max-width: 720px) {
+  .campos-pix > label:first-child { grid-column: auto; }
 }

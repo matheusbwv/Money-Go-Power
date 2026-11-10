@@ -2,9 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Minhas Finanças</title>
   <link rel="stylesheet" href="style.css">
+  <!-- web:cabecalho (a versão de celular coloca aqui o manifesto e os ícones) -->
 </head>
 <body spellcheck="false">
   <header class="topo">
@@ -32,6 +33,7 @@
 
     <div class="acoes-topo">
       <div class="hud-moedas" id="hud-moedas" title="Quanto sobra no mês"></div>
+      <button id="backup" class="btn-icone" hidden title="Backup dos dados" aria-label="Backup dos dados"></button>
     </div>
   </header>
 
@@ -147,6 +149,7 @@
   <script src="pixel.js"></script>
   <script src="bancos.js"></script>
   <script src="graficos.js"></script>
+  <script src="plataforma.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

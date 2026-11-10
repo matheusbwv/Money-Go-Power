@@ -1,5 +1,32 @@
 # Mudanças
 
+## Ainda não lançado
+
+### Versão de celular (iPhone e Android)
+
+- **App de celular** instalável pela tela de início (PWA), publicado no GitHub Pages pelo
+  workflow `.github/workflows/pages.yml`.
+- **Mesmo núcleo em Rust:** `web/src/lib.rs` inclui o `src/dados.rs` e é compilado para
+  `wasm32-unknown-unknown`, sem wasm-bindgen. A página conversa com ele por JSON, usando
+  memória compartilhada (`reservar`, `chamar`, `liberar`).
+- **`ui/plataforma.js`:** escolhe entre o Tauri (Windows) e o WebAssembly (navegador). No
+  navegador, cada alteração devolve o JSON completo, que é gravado no `localStorage`; se a
+  gravação falhar, os dados voltam para o último estado salvo.
+- **Backup** (botão do baú, só no celular): salva e restaura o `financas.json` no mesmo
+  formato do Windows. Um arquivo inválido é recusado sem mexer em nada.
+- **Sem internet:** um service worker guarda os arquivos do app, com versão calculada pelo
+  conteúdo em `ferramentas/montar_web.js`.
+- **Layout para telas de até 720 px:** topo em duas linhas, resumo em 2 × 2, uma coluna,
+  linhas de conta em grade, janelas na largura da tela e margens seguras do iPhone
+  (`env(safe-area-inset-*)`).
+- **Fontes:** no iPhone entram a Chalkboard SE e a Noteworthy, que já vêm no aparelho.
+- **Ícones** de tela de início (180, 192, 512 e maskable) gerados pelo
+  `ferramentas/gerar_imagens.js`.
+
+### Correções
+
+- **Plural:** "3 cartãoes" agora aparece como "3 cartões".
+
 ## 1.0.1
 
 Primeira versão publicada para download. Os dados da 1.0.0 continuam abrindo sem mudança

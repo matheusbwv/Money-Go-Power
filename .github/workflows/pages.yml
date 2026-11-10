@@ -1,0 +1,53 @@
+# Publica a versão de celular no GitHub Pages a cada mudança na interface ou no núcleo:
+# testa o núcleo em Rust, compila para WebAssembly, monta o site (web/dist) e publica.
+# Endereço: https://matheusbwv.github.io/Money-Go-Power/
+name: Celular (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ui/**'
+      - 'web/**'
+      - 'src/dados.rs'
+      - 'ferramentas/montar_web.js'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  montar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Alvo WebAssembly
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Testes do núcleo
+        run: cargo test --locked --manifest-path web/Cargo.toml
+
+      - name: Montar o site
+        run: node ferramentas/montar_web.js
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  publicar:
+    needs: montar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    steps:
+      - id: publicacao
+        uses: actions/deploy-pages@v4

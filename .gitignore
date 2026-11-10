@@ -12,3 +12,8 @@
 
 # Temporários
 *.tmp
+
+# Versão de celular montada (gerada por ferramentas/montar_web.js)
+/web/dist/
+/web/target/
+/.claude/

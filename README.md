@@ -33,6 +33,23 @@ vem no Windows 11 e chega pelas atualizações do Windows 10.
 Como o `.exe` não tem assinatura digital paga, o Windows pode mostrar "O Windows protegeu
 o computador" na primeira vez: clique em **Mais informações** e em **Executar assim mesmo**.
 
+## No celular (iPhone e Android)
+
+Abra **https://matheusbwv.github.io/Money-Go-Power/** no celular e instale na tela de início.
+Ele vira um app com ícone próprio, abre em tela cheia e funciona sem internet depois da
+primeira vez.
+
+- **iPhone:** abra no **Safari**, toque em **Compartilhar** (o quadrado com a seta) e depois em
+  **Adicionar à Tela de Início**.
+- **Android:** abra no **Chrome**, toque no menu **⋮** e depois em **Instalar app** (ou
+  **Adicionar à tela inicial**).
+
+As contas são feitas pelo mesmo código em Rust do programa de Windows, compilado para
+WebAssembly. Os dados ficam só no celular, no armazenamento do próprio app; nada vai para a
+internet. O baú no canto de cima salva uma cópia dos dados (backup) e restaura uma cópia
+salva antes. A cópia é o mesmo `financas.json` do Windows, então dá para levar os dados do
+celular para o PC e do PC para o celular.
+
 ## Como usar
 
 1. **Renda do mês** (no topo): digite seu salário + extras. Pode digitar somas: `3500+800`.
@@ -97,7 +114,12 @@ ui/app.js                    comportamento da tela
 ui/bancos.js                 bancos, cores, emblemas e bandeiras de cartão
 ui/graficos.js               gráficos de pizza
 ui/pixel.js                  pixel art (moeda, coração, caveira e os itens das categorias)
-ferramentas/gerar_imagens.js gera o ícone e a moeda do README a partir da pixel art
+ui/plataforma.js             liga a tela ao Rust: no .exe (Windows) ou em WebAssembly (celular)
+web/src/lib.rs               núcleo para o celular: usa o mesmo src/dados.rs, compilado em WebAssembly
+web/publico/                 manifesto e ícones do app de celular
+web/sw.js                    deixa o app de celular abrir sem internet
+ferramentas/gerar_imagens.js gera os ícones e a moeda do README a partir da pixel art
+ferramentas/montar_web.js    monta a versão de celular em web/dist
 icons/                       ícone do programa
 docs/                        imagens do README
 ```
@@ -128,6 +150,23 @@ esses arquivos), criando um `.cargo/config.toml` local, que não vai para o Git:
 [build]
 target-dir = "C:/MinhasFinancas-build"
 ```
+
+### Versão de celular
+
+Precisa do alvo WebAssembly do Rust (uma vez só) e do Node:
+
+```powershell
+rustup target add wasm32-unknown-unknown
+node ferramentas/montar_web.js --servir
+```
+
+Isso compila o núcleo, monta o site em `web/dist` e abre em `http://localhost:8080` (no
+navegador do PC, use o modo celular das ferramentas de desenvolvedor para ver como fica).
+A cada envio para o GitHub, o workflow
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) testa, monta e publica o site
+sozinho no GitHub Pages.
+
+### Imagens
 
 Para gerar de novo o ícone e a moeda do README depois de mexer na pixel art:
 
